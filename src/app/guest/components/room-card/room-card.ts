@@ -16,7 +16,9 @@ export class RoomCard {
   minPrice = computed(() => {
     const rooms = this.hotel().rooms;
     if (!rooms || rooms.length === 0) return 0;
-    return Math.min(...rooms.map(room => room.pricePerNight));
+    const activeRooms = rooms.filter(room => room.isActive);
+    if (activeRooms.length === 0) return 0;
+    return Math.min(...activeRooms.map(room => room.pricePerNight));
   });
 
   onSelectHotel() {

@@ -42,8 +42,9 @@ export class SearchPage implements OnInit {
     this.isLoading.set(true);
     this.hotelService.getHotels().subscribe({
       next: (res) => {
-        this.hotels.set(res.hotels);
-        this.total.set(res.count);
+        const activeHotels = res.hotels.filter(h => h.isActive);
+        this.hotels.set(activeHotels);
+        this.total.set(activeHotels.length);
         this.isLoading.set(false);
       },
       error: (err) => {

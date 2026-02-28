@@ -33,22 +33,91 @@ export class AdminService {
     return new Promise(resolve => setTimeout(resolve, 500));
   }
 
+  private syncHotelsToLocalStorage(): void {
+    const currentData = localStorage.getItem('hotels');
+    if (currentData) {
+      const parsed = JSON.parse(currentData);
+      parsed.hotels = this.hotels();
+      parsed.count = this.hotels().length;
+      localStorage.setItem('hotels', JSON.stringify(parsed));
+    }
+  }
+
+  private syncRoomsToLocalStorage(): void {
+    const currentData = localStorage.getItem('hotels');
+    if (currentData) {
+      const parsed = JSON.parse(currentData);
+      const hotels = parsed.hotels || [];
+
+      console.log('🔄 Syncing rooms to localStorage...');
+
+      // Actualizar las habitaciones dentro de cada hotel
+      hotels.forEach((hotel: any) => {
+        const adminRooms = this.rooms().filter(r => r.hotelId === hotel.id);
+
+        // Inicializar array de rooms si no existe
+        if (!hotel.rooms || !Array.isArray(hotel.rooms)) {
+          hotel.rooms = [];
+        }
+
+        // Sincronizar completamente: solo mantener las habitaciones que existen en admin
+        hotel.rooms = adminRooms.map(ar => {
+          // Buscar si esta habitación ya existe en el hotel
+          const existingRoom = hotel.rooms.find((r: any) => r.id === ar.id);
+
+          if (existingRoom) {
+            // Actualizar habitación existente preservando campos adicionales
+            return {
+              ...existingRoom,
+              hotel_id: ar.hotelId,
+              pricePerNight: ar.baseCost,
+              tax: ar.tax,
+              location: ar.location,
+              isActive: ar.isActive
+            };
+          } else {
+            // Crear nueva habitación
+            return {
+              id: ar.id,
+              hotel_id: ar.hotelId,
+              type: ar.roomType,
+              name: ar.roomType,
+              description: `Habitación ${ar.roomType}`,
+              pricePerNight: ar.baseCost,
+              tax: ar.tax,
+              location: ar.location,
+              capacity: 2,
+              available: 5,
+              amenities: ['TV', 'Wi-Fi'],
+              size: 25,
+              isActive: ar.isActive
+            };
+          }
+        });
+      });
+
+      parsed.hotels = hotels;
+      localStorage.setItem('hotels', JSON.stringify(parsed));
+    }
+  }
+
   // Hoteles
-  async addHotel(hotel: Omit<Hotel, 'id' | 'createdAt'>): Promise<void> {
+  async addHotel(hotel: Omit<Hotel, 'id'>): Promise<void> {
     try {
       this.setLoading(true);
       await this.simulateApiDelay();
 
-      if (!hotel.name || !hotel.location || !hotel.email) {
-        throw new Error('Los campos Nombre, Ubicación y Email son obligatorios');
+      if (!hotel.name || !hotel.location || !hotel.description) {
+        throw new Error('Los campos Nombre, Ubicación y Descripción son obligatorios');
       }
 
       const newHotel: Hotel = {
         ...hotel,
         id: `hotel-${Date.now()}`,
-        createdAt: new Date()
+        rooms: []
       };
       this.hotels.update(h => [...h, newHotel]);
+      this.syncHotelsToLocalStorage();
       this.notificationService.success('✓ Hotel creado exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al crear hotel';
@@ -71,6 +140,7 @@ export class AdminService {
       this.hotels.update(h =>
         h.map(item => (item.id === id ? { ...item, ...hotel } : item))
       );
+      this.syncHotelsToLocalStorage();
       this.notificationService.success('✓ Hotel actualizado exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al actualizar hotel';
@@ -87,6 +157,8 @@ export class AdminService {
         item.id === id ? { ...item, isActive: !item.isActive } : item
       )
     );
+    this.syncHotelsToLocalStorage();
+    this.notificationService.success('Estado actualizado');
   }
 
   async deleteHotel(id: string): Promise<void> {
@@ -94,6 +166,7 @@ export class AdminService {
       this.setLoading(true);
       await this.simulateApiDelay();
       this.hotels.update(h => h.filter(item => item.id !== id));
+      this.syncHotelsToLocalStorage();
       this.notificationService.success('✓ Hotel eliminado exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al eliminar hotel';
@@ -132,6 +205,7 @@ export class AdminService {
         createdAt: new Date()
       };
       this.rooms.update(r => [...r, newRoom]);
+      this.syncRoomsToLocalStorage();
       this.notificationService.success('✓ Habitación creada exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al crear habitación';
@@ -158,6 +232,7 @@ export class AdminService {
       this.rooms.update(r =>
         r.map(item => (item.id === id ? { ...item, ...room } : item))
       );
+      this.syncRoomsToLocalStorage();
       this.notificationService.success('✓ Habitación actualizada exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al actualizar habitación';
@@ -174,6 +249,8 @@ export class AdminService {
         item.id === id ? { ...item, isActive: !item.isActive } : item
       )
     );
+    this.syncRoomsToLocalStorage();
+    this.notificationService.success('Estado actualizado');
   }
 
   getRoomsByHotel(hotelId: string): Room[] {
@@ -185,7 +262,8 @@ export class AdminService {
       this.setLoading(true);
       await this.simulateApiDelay();
       this.rooms.update(r => r.filter(item => item.id !== id));
-      this.notificationService.success('✓ Habitación eliminada exitosamente');
+      this.syncRoomsToLocalStorage();
+      this.notificationService.success('Habitación eliminada exitosamente');
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Error al eliminar habitación';
       this.notificationService.error(errorMsg);
@@ -201,53 +279,42 @@ export class AdminService {
   }
 
   private loadMockData(): void {
-    // Mock hotels
-    this.hotels.set([
-      {
-        id: 'hotel-1',
-        name: 'Hotel Paraíso',
-        location: 'Madrid',
-        description: 'Hotel 5 estrellas en el centro de Madrid',
-        phone: '+34 912 345 678',
-        email: 'contact@hotelparaiso.es',
-        isActive: true,
-        createdAt: new Date()
-      },
-      {
-        id: 'hotel-2',
-        name: 'Hotel Mediterráneo',
-        location: 'Barcelona',
-        description: 'Hotel junto a la playa',
-        phone: '+34 933 456 789',
-        email: 'info@hotelmeditérraneo.es',
-        isActive: true,
-        createdAt: new Date()
-      }
-    ]);
+    const hotelsData = localStorage.getItem('hotels');
+    if (hotelsData) {
+      try {
+        const parsed = JSON.parse(hotelsData);
+        const hotelsFromStorage = (parsed.hotels || []);
+        this.hotels.set(hotelsFromStorage);
 
-    // Mock rooms
-    this.rooms.set([
-      {
-        id: 'room-1',
-        hotelId: 'hotel-1',
-        roomType: 'Suite Deluxe',
-        baseCost: 250,
-        tax: 21,
-        location: 'Piso 5',
-        isActive: true,
-        createdAt: new Date()
-      },
-      {
-        id: 'room-2',
-        hotelId: 'hotel-1',
-        roomType: 'Habitación Doble',
-        baseCost: 120,
-        tax: 21,
-        location: 'Piso 3',
-        isActive: true,
-        createdAt: new Date()
+        // Cargar rooms desde hotels y mapear al formato admin
+        const roomsFromHotels: Room[] = [];
+        hotelsFromStorage.forEach((hotel: any) => {
+          if (hotel.rooms && Array.isArray(hotel.rooms)) {
+            hotel.rooms.forEach((room: any) => {
+              roomsFromHotels.push({
+                id: room.id,
+                hotelId: room.hotel_id || hotel.id,
+                roomType: room.name || room.type,
+                baseCost: room.pricePerNight || 0,
+                tax: room.tax || 19,
+                location: room.location || `${room.type} - ${room.size}m²`,
+                isActive: room.isActive ?? true,
+                createdAt: new Date()
+              });
+            });
+          }
+        });
+        this.rooms.set(roomsFromHotels);
+      } catch (error) {
+        console.error('Error loading hotels from localStorage:', error);
+        this.hotels.set([]);
+        this.rooms.set([]);
       }
-    ]);
+    } else {
+      // Fallback a datos vacíos si no hay localStorage
+      this.hotels.set([]);
+      this.rooms.set([]);
+    }
 
     // Mock reservations
     this.reservations.set([

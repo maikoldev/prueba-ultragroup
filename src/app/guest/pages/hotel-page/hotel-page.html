@@ -103,20 +103,6 @@
 
             <p class="text-base-content">{{ hotel()!.description }}</p>
 
-            <div class="divider my-4"></div>
-
-            <div>
-              <h3 class="text-lg font-bold mb-3">✨ Amenidades</h3>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                @for (amenity of hotel()!.amenities; track amenity) {
-                  <div class="flex items-center bg-gray-100 rounded-lg px-4 py-2">
-                    <span>✓</span>
-                    <span class="ml-2">{{ amenity }}</span>
-                  </div>
-                }
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -124,7 +110,7 @@
         <div class="divider my-8">Habitaciones Disponibles</div>
 
         <div class="space-y-6">
-          @for (room of hotel()!.rooms; track room.id) {
+          @for (room of activeRooms(); track room.id) {
             <div class="card bg-base-100 shadow-xl border-2 border-base-200">
               <div class="card-body">
                 <div class="flex justify-between items-start mb-4">
@@ -198,23 +184,13 @@
 
             <div class="stats shadow-none bg-base-200 flex-col">
               <div class="stat">
-                <div class="stat-title text-sm">Categoría</div>
-                <div class="stat-value text-lg capitalize">{{ hotel()!.category || 'Estándar' }}</div>
+                <div class="stat-title text-sm">Calificación</div>
+                <div class="stat-value text-lg">⭐ {{ hotel()!.rating }}/5</div>
               </div>
               <div class="stat">
                 <div class="stat-title text-sm">Tipos de habitación</div>
-                <div class="stat-value text-lg">{{ hotel()!.rooms.length }}</div>
+                <div class="stat-value text-lg">{{ activeRooms().length }}</div>
               </div>
-            </div>
-
-            <div class="card-actions flex-col gap-3 mt-6">
-              <button
-                (click)="goBack()"
-                class="btn btn-ghost w-full"
-                aria-label="Volver a la búsqueda"
-              >
-                ← Volver a búsqueda
-              </button>
             </div>
 
             <div class="divider my-4"></div>

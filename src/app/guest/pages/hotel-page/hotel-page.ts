@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from '@hotels/services/hotel.service';
@@ -23,6 +23,13 @@ export class HotelPage implements OnInit {
   selectedImageIndex = signal(0);
   selectedRoomImageIndex = signal<Record<string, number>>({});
 
+  // Filtrar solo habitaciones activas
+  activeRooms = computed(() => {
+    const currentHotel = this.hotel();
+    if (!currentHotel) return [];
+    return currentHotel.rooms.filter(room => room.isActive);
+  });
+
   ngOnInit() {
     this.hotelId.set(this.route.snapshot.paramMap.get('idHotel') || '');
     this.loadHotel();
@@ -33,7 +40,7 @@ export class HotelPage implements OnInit {
     this.hotelService.getHotels().subscribe({
       next: (res) => {
         const found = res.hotels.find((h) => h.id === this.hotelId());
-        if (!found) {
+        if (!found || !found.isActive) {
           this.notFound.set(true);
           this.isLoading.set(false);
           return;

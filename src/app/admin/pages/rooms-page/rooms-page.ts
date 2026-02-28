@@ -68,12 +68,13 @@ export class RoomsPageComponent {
           isActive: this.editingRoom()!.isActive
         });
       } else {
-        await this.adminService.addRoom({
+        const roomData = {
           ...this.formData,
           baseCost: Number(this.formData.baseCost),
           tax: Number(this.formData.tax),
           isActive: true
-        });
+        };
+        await this.adminService.addRoom(roomData);
       }
       this.closeModal();
     } catch (error) {

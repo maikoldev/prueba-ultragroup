@@ -20,9 +20,8 @@ export class HotelsPageComponent {
   formData = {
     name: '',
     location: '',
-    email: '',
-    phone: '',
-    description: ''
+    description: '',
+    rating: 4.0
   };
 
   openCreateModal(): void {
@@ -36,9 +35,8 @@ export class HotelsPageComponent {
     this.formData = {
       name: hotel.name,
       location: hotel.location,
-      email: hotel.email,
-      phone: hotel.phone,
-      description: hotel.description
+      description: hotel.description,
+      rating: hotel.rating
     };
     this.showModal.set(true);
   }
@@ -49,7 +47,7 @@ export class HotelsPageComponent {
   }
 
   async saveHotel(): Promise<void> {
-    if (!this.formData.name || !this.formData.location || !this.formData.email) {
+    if (!this.formData.name || !this.formData.location || !this.formData.description) {
       this.notificationService.warning('Por favor completa los campos requeridos');
       return;
     }
@@ -57,13 +55,14 @@ export class HotelsPageComponent {
     try {
       if (this.editingHotel()) {
         await this.adminService.updateHotel(this.editingHotel()!.id, {
-          ...this.formData,
-          isActive: this.editingHotel()!.isActive
+          ...this.formData
         });
       } else {
         await this.adminService.addHotel({
           ...this.formData,
-          isActive: true
+          images: [],
+          isActive: true,
+          rooms: []
         });
       }
       this.closeModal();
@@ -90,9 +89,8 @@ export class HotelsPageComponent {
     this.formData = {
       name: '',
       location: '',
-      email: '',
-      phone: '',
-      description: ''
+      description: '',
+      rating: 4.0
     };
   }
 }

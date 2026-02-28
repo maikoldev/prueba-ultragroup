@@ -1,12 +1,12 @@
 export interface Hotel {
-  id: string;
-  name: string;
-  location: string;
-  description: string;
-  phone: string;
-  email: string;
-  isActive: boolean;
-  createdAt: Date;
+  id:            string;
+  name:          string;
+  location:      string;
+  rating:        number;
+  description:   string;
+  images:        string[];
+  isActive:      boolean;
+  rooms:         Room[];
 }
 
 export interface Room {

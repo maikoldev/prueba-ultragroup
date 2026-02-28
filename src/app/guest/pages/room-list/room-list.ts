@@ -20,8 +20,9 @@ export class RoomList implements OnInit {
 
   ngOnInit() {
     this.hotelService.getHotels().subscribe((res) => {
-      this.hotels.set(res.hotels);
-      this.total.set(res.count);
+      const activeHotels = res.hotels.filter(h => h.isActive);
+      this.hotels.set(activeHotels);
+      this.total.set(activeHotels.length);
     });
   }
 

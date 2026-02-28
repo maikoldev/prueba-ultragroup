@@ -10,23 +10,25 @@ export interface Hotel {
   location:      string;
   rating:        number;
   description:   string;
-  amenities:     string[];
   images:        string[];
-  category:      HotelCategory;
+  isActive:      boolean;
   rooms:         Room[];
 }
 
 export interface Room {
   id:            string;
+  hotel_id:     string;
   type:          RoomType;
   name:          string;
   description:   string;
   pricePerNight: number;
+  tax:           number;
+  location:      string;
   capacity:      number;
   available:     number;
   amenities:     string[];
-  images:        string[];
-  size:          number; // metros cuadrados
+  size:          number;
+  isActive:      boolean;
 }
 
 export enum RoomType {
@@ -35,11 +37,4 @@ export enum RoomType {
   Suite = 'Suite',
   Familiar = 'Familiar',
   Presidencial = 'Presidencial'
-}
-
-export enum HotelCategory {
-  Economico = 'económico',
-  Boutique = 'boutique',
-  Negocios = 'negocios',
-  Lujo = 'lujo'
 }
