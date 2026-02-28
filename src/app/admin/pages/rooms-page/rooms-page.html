@@ -1,0 +1,182 @@
+<div class="p-6">
+  <!-- Encabezado -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Gestión de Habitaciones</h1>
+    <button
+      class="btn btn-primary"
+      (click)="openCreateModal()"
+      [disabled]="adminService.loading()"
+    >
+      @if (adminService.loading()) {
+        <span class="loading loading-spinner loading-sm"></span>
+      }
+      + Nueva Habitación
+    </button>
+  </div>
+
+  <!-- Tabla de habitaciones -->
+  <div class="overflow-x-auto">
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Hotel</th>
+          <th>Ubicación</th>
+          <th>Costo Base</th>
+          <th>Impuesto</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (room of adminService.roomsList(); track room.id) {
+          <tr>
+            <td class="font-semibold">{{ room.roomType }}</td>
+            <td>{{ getHotelName(room.hotelId) }}</td>
+            <td>{{ room.location }}</td>
+            <td>{{ room.baseCost | currency }}</td>
+            <td>{{ room.tax }}%</td>
+            <td>
+              @if (room.isActive) {
+                <span class="badge badge-success">Activa</span>
+              } @else {
+                <span class="badge badge-error">Inactiva</span>
+              }
+            </td>
+            <td class="space-x-2">
+              <button
+                class="btn btn-sm btn-info"
+                (click)="openEditModal(room)"
+                [disabled]="adminService.loading()"
+              >
+                @if (adminService.loading()) {
+                  <span class="loading loading-spinner loading-xs"></span>
+                } @else {
+                  ✏️ Editar
+                }
+              </button>
+              <button
+                class="btn btn-sm"
+                [class.btn-warning]="room.isActive"
+                [class.btn-success]="!room.isActive"
+                (click)="toggleRoom(room.id)"
+              >
+                {{ room.isActive ? '❌ Desactivar' : '✓ Activar' }}
+              </button>
+              <button
+                class="btn btn-sm btn-error"
+                (click)="deleteRoom(room.id)"
+                [disabled]="adminService.loading()"
+              >
+                @if (adminService.loading()) {
+                  <span class="loading loading-spinner loading-xs"></span>
+                } @else {
+                  🗑️ Eliminar
+                }
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="text-center py-8">
+              <p class="text-gray-500">No hay habitaciones registradas</p>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Crear/Editar -->
+  @if (showModal()) {
+    <div class="modal modal-open">
+      <div class="modal-box w-11/12 max-w-2xl">
+        <h3 class="font-bold text-lg">
+          {{ editingRoom() ? 'Editar Habitación' : 'Nueva Habitación' }}
+        </h3>
+
+        <div class="py-4 space-y-4">
+          <div>
+            <label class="label">
+              <span class="label-text">Hotel *</span>
+            </label>
+            <select
+              class="select select-bordered w-full"
+              [(ngModel)]="formData.hotelId"
+              [disabled]="adminService.loading()"
+            >
+              <option value="">Selecciona un hotel</option>
+              @for (hotel of adminService.hotelsList(); track hotel.id) {
+                <option [value]="hotel.id">{{ hotel.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="label">
+              <span class="label-text">Tipo de Habitación *</span>
+            </label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              [(ngModel)]="formData.roomType"
+              placeholder="Ej: Suite Deluxe"
+              [disabled]="adminService.loading()"
+            />
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="label">
+                <span class="label-text">Costo Base *</span>
+              </label>
+              <input
+                type="number"
+                class="input input-bordered w-full"
+                [(ngModel)]="formData.baseCost"
+                placeholder="250"
+                [disabled]="adminService.loading()"
+              />
+            </div>
+            <div>
+              <label class="label">
+                <span class="label-text">Impuesto (%) *</span>
+              </label>
+              <input
+                type="number"
+                class="input input-bordered w-full"
+                [(ngModel)]="formData.tax"
+                placeholder="21"
+                [disabled]="adminService.loading()"
+              />
+            </div>
+            <div>
+              <label class="label">
+                <span class="label-text">Ubicación *</span>
+              </label>
+              <input
+                type="text"
+                class="input input-bordered w-full"
+                [(ngModel)]="formData.location"
+                placeholder="Piso 5"
+                [disabled]="adminService.loading()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-action">
+          <button class="btn" (click)="closeModal()" [disabled]="adminService.loading()">Cancelar</button>
+          <button class="btn btn-primary" (click)="saveRoom()" [disabled]="adminService.loading()">
+            @if (adminService.loading()) {
+              <span class="loading loading-spinner loading-sm"></span>
+              Guardando...
+            } @else {
+              Guardar
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

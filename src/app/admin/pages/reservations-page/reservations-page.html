@@ -1,0 +1,132 @@
+<div class="p-6">
+  <!-- Encabezado -->
+  <h1 class="text-3xl font-bold mb-6">Gestión de Reservas</h1>
+
+  <!-- Tabla de reservas -->
+  <div class="overflow-x-auto">
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Hotel</th>
+          <th>Habitación</th>
+          <th>Huésped</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reservation of adminService.reservationsList(); track reservation.id) {
+          <tr>
+            <td>{{ getHotelName(reservation.hotelId) }}</td>
+            <td>{{ getRoomType(reservation.roomId) }}</td>
+            <td class="font-semibold">{{ reservation.guestName }}</td>
+            <td>{{ formatDate(reservation.checkIn) }}</td>
+            <td>{{ formatDate(reservation.checkOut) }}</td>
+            <td>{{ reservation.totalPrice | currency }}</td>
+            <td>
+              <span
+                class="badge"
+                [class.badge-success]="reservation.status === 'confirmed'"
+                [class.badge-warning]="reservation.status === 'pending'"
+                [class.badge-error]="reservation.status === 'cancelled'"
+              >
+                {{ getStatusLabel(reservation.status) }}
+              </span>
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-info"
+                (click)="viewDetail(reservation)"
+              >
+                👁️ Ver
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="text-center py-8">
+              <p class="text-gray-500">No hay reservas registradas</p>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Detalle -->
+  @if (selectedReservation()) {
+    <div class="modal modal-open">
+      <div class="modal-box w-11/12 max-w-md">
+        <h3 class="font-bold text-lg mb-4">Detalle de Reserva</h3>
+
+        <div class="space-y-3">
+          <div class="bg-base-200 p-3 rounded">
+            <p class="text-sm text-gray-500">Hotel</p>
+            <p class="font-semibold">
+              {{ getHotelName(selectedReservation()!.hotelId) }}
+            </p>
+          </div>
+
+          <div class="bg-base-200 p-3 rounded">
+            <p class="text-sm text-gray-500">Habitación</p>
+            <p class="font-semibold">
+              {{ getRoomType(selectedReservation()!.roomId) }}
+            </p>
+          </div>
+
+          <div class="bg-base-200 p-3 rounded">
+            <p class="text-sm text-gray-500">Huésped</p>
+            <p class="font-semibold">{{ selectedReservation()!.guestName }}</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-base-200 p-3 rounded">
+              <p class="text-sm text-gray-500">Check In</p>
+              <p class="font-semibold">
+                {{ formatDate(selectedReservation()!.checkIn) }}
+              </p>
+            </div>
+            <div class="bg-base-200 p-3 rounded">
+              <p class="text-sm text-gray-500">Check Out</p>
+              <p class="font-semibold">
+                {{ formatDate(selectedReservation()!.checkOut) }}
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-base-200 p-3 rounded">
+            <p class="text-sm text-gray-500">Total</p>
+            <p class="font-bold text-lg text-primary">
+              {{ selectedReservation()!.totalPrice | currency }}
+            </p>
+          </div>
+
+          <div class="bg-base-200 p-3 rounded">
+            <p class="text-sm text-gray-500">Estado</p>
+            <span
+              class="badge"
+              [class.badge-success]="
+                selectedReservation()!.status === 'confirmed'
+              "
+              [class.badge-warning]="
+                selectedReservation()!.status === 'pending'
+              "
+              [class.badge-error]="
+                selectedReservation()!.status === 'cancelled'
+              "
+            >
+              {{ getStatusLabel(selectedReservation()!.status) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-action mt-6">
+          <button class="btn" (click)="closeDetail()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

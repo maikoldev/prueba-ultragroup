@@ -1,0 +1,34 @@
+<aside class="w-64 bg-base-200 border-r border-base-300 overflow-y-auto">
+  <ul class="menu p-4 text-base-content">
+    <li class="menu-title">
+      <span>Panel Admin</span>
+    </li>
+    <li>
+      <a
+        routerLink="/admin/hotels"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        🏨 Hoteles
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/admin/rooms"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        🛏️ Habitaciones
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/admin/reservations"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        📅 Reservas
+      </a>
+    </li>
+  </ul>
+</aside>

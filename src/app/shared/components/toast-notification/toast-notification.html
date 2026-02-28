@@ -1,0 +1,17 @@
+<div class="toast toast-top toast-end gap-4 pointer-events-none z-[9999]">
+  @for (toast of notificationService.toastList(); track toast.id) {
+    <div
+      [class]="getAlertClasses(toast.type)"
+      class="pointer-events-auto shadow-lg"
+    >
+      <span class="text-lg">{{ getIcon(toast.type) }}</span>
+      <span>{{ toast.message }}</span>
+      <button
+        class="btn btn-sm btn-ghost"
+        (click)="notificationService.remove(toast.id)"
+      >
+        ✕
+      </button>
+    </div>
+  }
+</div>
