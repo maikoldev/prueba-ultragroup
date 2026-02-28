@@ -24,14 +24,24 @@
         <li>
           <a routerLink="/search" [routerLinkActive]="['text-secondary']"> Alojamientos </a>
         </li>
-        <li>
-          <a routerLink="/admin" class="text-primary font-semibold"> 🔐 Admin </a>
-        </li>
+        @if (authService.isAuthenticated()) {
+          <li>
+            <a routerLink="/admin" class="text-primary font-semibold"> 🔐 Admin </a>
+          </li>
+        } @else {
+          <li>
+            <a routerLink="/admin/login" class="text-warning font-semibold"> 🔓 Acceso Admin </a>
+          </li>
+        }
       </ul>
     </div>
     <a routerLink="/search" class="btn btn-ghost text-xl">🏨 HotelsApp</a>
   </div>
   <div class="navbar-end">
-    <a routerLink="/admin" class="text-primary font-semibold">🔐 Admin</a>
+    @if (authService.isAuthenticated()) {
+      <a routerLink="/admin" class="text-primary font-semibold">🔐 Admin</a>
+    } @else {
+      <a routerLink="/admin/login" class="text-warning font-semibold">🔓 Acceso Admin</a>
+    }
   </div>
 </div>

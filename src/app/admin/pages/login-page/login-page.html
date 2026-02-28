@@ -1,0 +1,48 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-base-200 to-base-300">
+  <div class="card bg-base-100 shadow-xl w-96">
+    <div class="card-body">
+      <h1 class="card-title text-2xl justify-center mb-6">🔐 Admin Login</h1>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-control mb-4">
+          <label class="label">
+            <span class="label-text">Contraseña</span>
+          </label>
+          <input
+            type="password"
+            placeholder="Ingresa la contraseña"
+            class="input input-bordered"
+            formControlName="password"
+          />
+          @if (form.get('password')?.hasError('required') && form.get('password')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">La contraseña es requerida</span>
+            </label>
+          }
+        </div>
+
+        @if (errorMessage()) {
+          <div class="alert alert-error mb-4">
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="btn btn-primary w-full"
+          [disabled]="form.invalid || loading()"
+        >
+          @if (loading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+          }
+          Acceder
+        </button>
+      </form>
+
+      <div class="divider text-sm">💡 Ayuda</div>
+      <p class="text-sm text-base-content/60 text-center">
+        Contraseña para acceso de prueba: <strong>{{ env.adminPassword }}</strong>
+      </p>
+    </div>
+  </div>
+</div>
