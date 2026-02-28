@@ -85,8 +85,4 @@ export class SearchPage implements OnInit {
     this.hasSearched.set(false);
     this.filteredHotels.set([]);
   }
-
-  goToHotels() {
-    this.router.navigate(['/rooms']);
-  }
 }

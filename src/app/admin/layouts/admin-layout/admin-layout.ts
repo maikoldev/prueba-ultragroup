@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar';
 import { ToastNotificationComponent } from '../../../shared/components/toast-notification/toast-notification';
 
@@ -10,7 +10,9 @@ import { ToastNotificationComponent } from '../../../shared/components/toast-not
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminLayoutComponent {
+  private router = inject(Router);
+
   logout(): void {
-    console.log('Logout');
+    this.router.navigate(['/search']);
   }
 }
