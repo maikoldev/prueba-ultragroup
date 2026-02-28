@@ -1,3 +1,4 @@
 export const env = {
-  baseUrl: '/mocks'
+  baseUrl: '/mocks',
+  adminPassword: 'admin123'
 }
