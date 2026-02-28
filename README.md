@@ -206,6 +206,34 @@ npm run build
 npm run test
 ```
 
+## 🌐 Deployment con Vercel
+
+### Opción 1: Deploy desde el dashboard (Recomendado)
+
+1. Crea una cuenta en [Vercel](https://vercel.com)
+2. Conecta tu repositorio de GitHub
+3. Vercel detectará automáticamente Angular
+4. Click en "Deploy"
+5. ¡Listo! Tu app estará en vivo en ~2 minutos
+
+### Opción 2: Deploy desde CLI
+
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
+### CI/CD Automático
+
+El proyecto incluye GitHub Actions que automáticamente:
+
+- ✅ Ejecuta tests en cada push
+- ✅ Valida que el build funciona
+- ✅ Sube artefactos de build
+
+Vercel se encarga del deployment automático cuando se conecta al repo.
+
 ## 🚀 Próximos Pasos
 
 1. **Autenticación**: Implementar JWT + Login page
