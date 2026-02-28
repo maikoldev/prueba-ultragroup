@@ -1,0 +1,304 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">Completar Reserva</h1>
+
+  @if (isLoading()) {
+    <div class="flex justify-center items-center min-h-screen">
+      <div class="loading loading-spinner loading-lg"></div>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Booking Summary -->
+      @if (hotel() && room()) {
+        <div class="lg:col-span-1">
+          <div class="card bg-base-100 shadow-xl sticky top-8">
+            <figure class="px-4 pt-4">
+              @if (hotel()!.images && hotel()!.images.length > 0) {
+                <img
+                  [src]="hotel()!.images[0]"
+                  [alt]="hotel()!.name"
+                  class="rounded-lg h-40 w-full object-cover"
+                />
+              }
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">{{ hotel()!.name }}</h2>
+              <p class="text-sm opacity-70">{{ hotel()!.location }}</p>
+              <div class="flex items-center gap-2">
+                <span class="text-yellow-500">★</span>
+                <span class="font-semibold">{{ hotel()!.rating }}/5</span>
+              </div>
+
+              <div class="divider my-2"></div>
+
+              <!-- Room Details -->
+              <div class="bg-base-200 rounded-lg p-3 mb-4">
+                <h3 class="font-bold mb-2">{{ room()!.name }}</h3>
+                <div class="badge badge-primary mb-2">{{ room()!.type }}</div>
+                <div class="text-xs opacity-70 space-y-1">
+                  <div>👥 Capacidad: {{ room()!.capacity }} persona(s)</div>
+                  <div>📏 Tamaño: {{ room()!.size }}m²</div>
+                </div>
+              </div>
+
+              <div class="text-sm">
+                <div class="flex justify-between mb-2">
+                  <span>Precio/noche:</span>
+                  <span class="font-bold">{{
+                    room()!.pricePerNight | currency: 'COP' : 'symbol' : '1.0-0'
+                  }}</span>
+                </div>
+                <div class="flex justify-between pt-2 border-t">
+                  <span class="font-bold">Total:</span>
+                  <span class="font-bold text-primary text-lg">{{
+                    calculatePrice() | currency: 'COP' : 'symbol' : '1.0-0'
+                  }}</span>
+                </div>
+              </div>
+
+              <div class="card-actions justify-end mt-4">
+                <button (click)="goBack()" class="btn btn-ghost btn-sm w-full">← Volver</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservation Form -->
+        <div class="lg:col-span-2">
+          <form
+            [formGroup]="reservationForm"
+            (ngSubmit)="onSubmit()"
+            class="card bg-base-100 shadow-xl"
+          >
+            <div class="card-body">
+              <h2 class="card-title mb-6">Datos del huésped</h2>
+
+              <!-- Full Name -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Nombre completo <span class="text-error">*</span></span>
+                </label>
+                <input
+                  id="fullName"
+                  type="text"
+                  formControlName="fullName"
+                  placeholder="Ej: Juan Pérez García"
+                  [class]="
+                    'input input-bordered w-full ' +
+                    (isFieldInvalid('fullName') ? 'input-error' : '')
+                  "
+                  aria-required="true"
+                  aria-label="Ingresa tu nombre completo"
+                  [attr.aria-invalid]="isFieldInvalid('fullName')"
+                />
+                @if (isFieldInvalid('fullName')) {
+                  <label class="label">
+                    <span class="label-text-alt text-error" role="alert">{{
+                      getErrorMessage('fullName')
+                    }}</span>
+                  </label>
+                }
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text"
+                    >Fecha de nacimiento <span class="text-error">*</span></span
+                  >
+                </label>
+                <input
+                  id="dateOfBirth"
+                  type="date"
+                  formControlName="dateOfBirth"
+                  [class]="
+                    'input input-bordered w-full ' +
+                    (isFieldInvalid('dateOfBirth') ? 'input-error' : '')
+                  "
+                  aria-required="true"
+                  aria-label="Selecciona tu fecha de nacimiento"
+                  [attr.aria-invalid]="isFieldInvalid('dateOfBirth')"
+                />
+                @if (isFieldInvalid('dateOfBirth')) {
+                  <label class="label">
+                    <span class="label-text-alt text-error" role="alert">{{
+                      getErrorMessage('dateOfBirth')
+                    }}</span>
+                  </label>
+                }
+              </div>
+
+              <!-- Gender -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Género <span class="text-error">*</span></span>
+                </label>
+                <select
+                  id="gender"
+                  formControlName="gender"
+                  [class]="
+                    'select select-bordered w-full ' +
+                    (isFieldInvalid('gender') ? 'select-error' : '')
+                  "
+                  aria-required="true"
+                  aria-label="Selecciona tu género"
+                  [attr.aria-invalid]="isFieldInvalid('gender')"
+                >
+                  <option disabled selected value="">Selecciona tu género</option>
+                  @for (gender of genders; track gender) {
+                    <option [value]="gender">{{ gender }}</option>
+                  }
+                </select>
+                @if (isFieldInvalid('gender')) {
+                  <label class="label">
+                    <span class="label-text-alt text-error" role="alert">{{
+                      getErrorMessage('gender')
+                    }}</span>
+                  </label>
+                }
+              </div>
+
+              <!-- Document Type and Number -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text"
+                      >Tipo de documento <span class="text-error">*</span></span
+                    >
+                  </label>
+                  <select
+                    id="documentType"
+                    formControlName="documentType"
+                    [class]="
+                      'select select-bordered w-full ' +
+                      (isFieldInvalid('documentType') ? 'select-error' : '')
+                    "
+                    aria-required="true"
+                    aria-label="Selecciona tipo de documento"
+                    [attr.aria-invalid]="isFieldInvalid('documentType')"
+                  >
+                    <option disabled selected value="">Selecciona tipo</option>
+                    @for (docType of documentTypes; track docType) {
+                      <option [value]="docType">{{ docType }}</option>
+                    }
+                  </select>
+                  @if (isFieldInvalid('documentType')) {
+                    <label class="label">
+                      <span class="label-text-alt text-error" role="alert">{{
+                        getErrorMessage('documentType')
+                      }}</span>
+                    </label>
+                  }
+                </div>
+
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text"
+                      >Número de documento <span class="text-error">*</span></span
+                    >
+                  </label>
+                  <input
+                    id="documentNumber"
+                    type="text"
+                    formControlName="documentNumber"
+                    placeholder="Ej: 1234567890"
+                    [class]="
+                      'input input-bordered w-full ' +
+                      (isFieldInvalid('documentNumber') ? 'input-error' : '')
+                    "
+                    aria-required="true"
+                    aria-label="Ingresa tu número de documento"
+                    [attr.aria-invalid]="isFieldInvalid('documentNumber')"
+                  />
+                  @if (isFieldInvalid('documentNumber')) {
+                    <label class="label">
+                      <span class="label-text-alt text-error" role="alert">{{
+                        getErrorMessage('documentNumber')
+                      }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Email <span class="text-error">*</span></span>
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="Ej: correo@ejemplo.com"
+                  [class]="
+                    'input input-bordered w-full ' + (isFieldInvalid('email') ? 'input-error' : '')
+                  "
+                  aria-required="true"
+                  aria-label="Ingresa tu email"
+                  [attr.aria-invalid]="isFieldInvalid('email')"
+                />
+                @if (isFieldInvalid('email')) {
+                  <label class="label">
+                    <span class="label-text-alt text-error" role="alert">{{
+                      getErrorMessage('email')
+                    }}</span>
+                  </label>
+                }
+              </div>
+
+              <!-- Phone -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Teléfono <span class="text-error">*</span></span>
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  formControlName="phone"
+                  placeholder="Ej: 3001234567"
+                  [class]="
+                    'input input-bordered w-full ' + (isFieldInvalid('phone') ? 'input-error' : '')
+                  "
+                  aria-required="true"
+                  aria-label="Ingresa tu teléfono"
+                  [attr.aria-invalid]="isFieldInvalid('phone')"
+                />
+                @if (isFieldInvalid('phone')) {
+                  <label class="label">
+                    <span class="label-text-alt text-error" role="alert">{{
+                      getErrorMessage('phone')
+                    }}</span>
+                  </label>
+                }
+              </div>
+
+              <!-- Submit Button -->
+              <div class="card-actions justify-end mt-8">
+                <button
+                  type="button"
+                  (click)="goBack()"
+                  class="btn btn-ghost"
+                  aria-label="Cancelar"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="reservationForm.invalid || isSubmitting()"
+                  class="btn btn-primary"
+                  [class.loading]="isSubmitting()"
+                  aria-label="Confirmar reserva"
+                >
+                  @if (isSubmitting()) {
+                    Confirmando...
+                  } @else {
+                    Confirmar Reserva
+                  }
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
+    </div>
+  }
+</div>

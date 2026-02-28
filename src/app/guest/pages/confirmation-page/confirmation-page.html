@@ -1,0 +1,145 @@
+<div class="container mx-auto px-4 py-8">
+  @if (reservation()) {
+  <div class="max-w-2xl mx-auto">
+    <!-- Success Message -->
+    <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg
+            class="h-8 w-8 text-green-500"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-label="Reserva confirmada"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-2xl font-bold text-green-800 mb-2">¡Reserva Confirmada!</h2>
+          <p class="text-green-700">Tu reserva ha sido creada exitosamente. Te enviaremos un correo de confirmación.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reservation Details -->
+    <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-6">Número de Reserva</h2>
+      <p class="text-3xl font-bold text-blue-600 mb-2">{{ reservation()!.id }}</p>
+      <p class="text-gray-600 text-sm">Guarda este número para futuras referencias</p>
+
+      <hr class="my-8" />
+
+      <!-- Guest Information -->
+      <h3 class="text-xl font-bold mb-4">Información del Huésped</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <p class="text-gray-600 text-sm">Nombre completo</p>
+          <p class="font-semibold">{{ reservation()!.guestData.fullName }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Email</p>
+          <p class="font-semibold">{{ reservation()!.guestData.email }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Teléfono</p>
+          <p class="font-semibold">{{ reservation()!.guestData.phone }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Género</p>
+          <p class="font-semibold">{{ reservation()!.guestData.gender }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Fecha de nacimiento</p>
+          <p class="font-semibold">{{ reservation()!.guestData.dateOfBirth | date: 'dd/MM/yyyy' }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Documento</p>
+          <p class="font-semibold">{{ reservation()!.guestData.documentType }} {{ reservation()!.guestData.documentNumber }}</p>
+        </div>
+      </div>
+
+      <hr class="my-8" />
+
+      <!-- Reservation Details -->
+      <h3 class="text-xl font-bold mb-4">Detalles de la Reserva</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <p class="text-gray-600 text-sm">Fecha de entrada</p>
+          <p class="font-semibold text-lg">{{ reservation()!.checkInDate | date: 'dd/MM/yyyy' }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Fecha de salida</p>
+          <p class="font-semibold text-lg">{{ reservation()!.checkOutDate | date: 'dd/MM/yyyy' }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Precio total</p>
+          <p class="font-semibold text-lg text-green-600">{{ reservation()!.totalPrice | currency: 'COP': 'symbol': '1.0-0' }}</p>
+        </div>
+        <div>
+          <p class="text-gray-600 text-sm">Estado</p>
+          <p class="font-semibold text-lg">
+            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">
+              {{ reservation()!.status === 'pending' ? 'Pendiente' : 'Confirmada' }}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-8" />
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-4 md:flex-row md:justify-between">
+        <button
+          (click)="printReservation()"
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+          aria-label="Imprimir reserva"
+        >
+          🖨️ Imprimir
+        </button>
+
+        <button
+          (click)="downloadReservation()"
+          class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold"
+          aria-label="Descargar reserva"
+        >
+          ⬇️ Descargar
+        </button>
+
+        <button
+          (click)="goHome()"
+          class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+          aria-label="Volver al inicio"
+        >
+          🏠 Volver a Inicio
+        </button>
+      </div>
+    </div>
+
+    <!-- Important Information -->
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
+      <h3 class="font-bold text-blue-900 mb-2">Información Importante</h3>
+      <ul class="text-blue-800 text-sm space-y-1 list-disc list-inside">
+        <li>Revisa tu email para la confirmación de la reserva</li>
+        <li>Deberás presentar una identificación válida al check-in</li>
+        <li>La política de cancelación será enviada por email</li>
+        <li>En caso de duda, contacta al hotel directamente</li>
+      </ul>
+    </div>
+  </div>
+  } @else {
+  <div class="flex justify-center items-center min-h-screen">
+    <div class="text-center">
+      <p class="text-lg text-gray-600 mb-4">No se encontró información de la reserva</p>
+      <button
+        (click)="goHome()"
+        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+      >
+        Volver a Inicio
+      </button>
+    </div>
+  </div>
+  }

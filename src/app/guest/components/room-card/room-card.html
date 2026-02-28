@@ -1,15 +1,43 @@
-<div class="card bg-base-100 w-full shadow-sm">
-  <figure>
+<div class="card bg-base-100 w-full shadow-sm hover:shadow-lg transition">
+  <figure class="relative">
     <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-      alt="Shoes"
+      [src]="
+        hotel().images[0] ||
+        'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'
+      "
+      [alt]="hotel().name"
     />
+    <div class="badge badge-secondary absolute top-3 right-3">{{ hotel().location }}</div>
   </figure>
   <div class="card-body">
     <h2 class="card-title">
-      Habitación en Rosales
-      <div class="badge badge-secondary">NUEVO</div>
+      {{ hotel().name }}
     </h2>
-    <p>$100.000 COP por 2 noches - 5.0</p>
+    <p class="text-sm text-gray-600">{{ hotel().description }}</p>
+    <div class="flex justify-between items-center mt-2">
+      <span class="font-bold">Desde ${{ minPrice().toLocaleString('es-CO') }} COP/noche</span>
+      <div class="rating rating-sm">
+        <span class="text-yellow-500">★ {{ hotel().rating }}</span>
+      </div>
+    </div>
+    @if (hotel().amenities && hotel().amenities.length > 0) {
+      <div class="flex flex-wrap gap-1 mt-2">
+        @for (amenity of hotel().amenities.slice(0, 2); track amenity) {
+          <div class="flex items-center bg-gray-100 rounded-lg px-4 py-2">
+            <span>✓</span>
+            <span class="ml-2">{{ amenity }}</span>
+          </div>
+        }
+      </div>
+    }
+    <div class="card-actions justify-end mt-4">
+      <button
+        (click)="onSelectHotel()"
+        class="btn btn-primary btn-sm"
+        [attr.aria-label]="'Ver detalles de ' + hotel().name"
+      >
+        Ver detalles
+      </button>
+    </div>
   </div>
 </div>

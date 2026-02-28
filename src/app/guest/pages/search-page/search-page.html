@@ -1,0 +1,145 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-2">🏨 Busca tu Hogar Perfecto</h1>
+    <p class="text-gray-600 mb-6">Encuentra los mejores hoteles y alojamientos a tu medida</p>
+
+    <!-- Search Form -->
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <!-- City Filter -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-semibold">Ciudad <span class="text-error">*</span></span>
+            </label>
+            <input
+              id="city"
+              type="text"
+              formControlName="city"
+              placeholder="Ej: Bogotá, Cartagena"
+              [class]="'input input-bordered w-full ' + (searchForm.get('city')?.invalid && searchForm.get('city')?.touched ? 'input-error' : '')"
+              aria-required="true"
+              aria-label="Ingresa la ciudad"
+            />
+            @if (searchForm.get('city')?.invalid && searchForm.get('city')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">La ciudad es obligatoria</span>
+            </label>
+            }
+          </div>
+
+          <!-- Check-in Date -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-semibold">Fecha de entrada <span class="text-error">*</span></span>
+            </label>
+            <input
+              id="checkInDate"
+              type="date"
+              formControlName="checkInDate"
+              [class]="'input input-bordered w-full ' + (searchForm.get('checkInDate')?.invalid && searchForm.get('checkInDate')?.touched ? 'input-error' : '')"
+              aria-required="true"
+              aria-label="Selecciona la fecha de entrada"
+            />
+            @if (searchForm.get('checkInDate')?.invalid && searchForm.get('checkInDate')?.touched) {
+            <label class="label">
+              <span class="label-text-alt text-error">La fecha de entrada es obligatoria</span>
+            </label>
+            }
+          </div>
+
+          <!-- Check-out Date -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-semibold">Fecha de salida (Opcional)</span>
+            </label>
+            <input
+              id="checkOutDate"
+              type="date"
+              formControlName="checkOutDate"
+              class="input input-bordered w-full"
+              aria-label="Selecciona la fecha de salida"
+            />
+          </div>
+        </div>
+
+        <div class="card-actions justify-end pt-4">
+          <button
+            type="button"
+            (click)="resetSearch()"
+            class="btn btn-ghost"
+            aria-label="Limpiar búsqueda"
+          >
+            Limpiar
+          </button>
+          <button
+            type="submit"
+            [disabled]="searchForm.invalid || isLoading()"
+            class="btn btn-primary"
+            [class.loading]="isLoading()"
+            aria-label="Buscar hoteles"
+          >
+            @if (isLoading()) {
+            Buscando...
+            } @else {
+            🔍 Buscar Hoteles
+            }
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Results -->
+  @if (hasSearched()) {
+  <div>
+    @if (filteredHotels().length > 0) {
+    <h2 class="text-2xl font-bold mb-6">
+      ✨ Resultados de búsqueda ({{ filteredHotels().length }} hoteles)
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (hotel of filteredHotels(); track hotel.id) {
+      <app-room-card
+        [hotel]="hotel"
+        (selectHotel)="onSelectHotel($event)"
+      ></app-room-card>
+      }
+    </div>
+    } @else {
+    <div class="alert alert-warning shadow-lg">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-current shrink-0 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 9v2m0 4v2m0 4v2M6.938 3H17.062a2 2 0 011.962 2.5l-1.477 7A2 2 0 0115.562 16h-7.125a2 2 0 01-1.962-2.5l1.477-7A2 2 0 016.938 3z"
+        />
+      </svg>
+      <div>
+        <h3 class="font-bold">Sin resultados</h3>
+        <div class="text-sm">
+          No encontramos hoteles en esa ciudad. Prueba una búsqueda diferente.
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  } @else if (!isLoading()) {
+  <div>
+    <h2 class="text-2xl font-bold mb-6">📍 Hoteles Populares</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (hotel of hotels(); track hotel.id) {
+      <app-room-card
+        [hotel]="hotel"
+        (selectHotel)="onSelectHotel($event)"
+      ></app-room-card>
+      }
+    </div>
+  </div>
+  }
+</div>

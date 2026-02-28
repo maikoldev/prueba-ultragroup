@@ -1,4 +1,4 @@
-<div class="toast toast-top toast-end gap-4 pointer-events-none z-[9999]">
+<div class="toast toast-top toast-end gap-4 pointer-events-none z-9999">
   @for (toast of notificationService.toastList(); track toast.id) {
     <div
       [class]="getAlertClasses(toast.type)"

@@ -1,8 +1,75 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HotelService } from '../../../hotels/services/hotel.service';
+import { Hotel, Room } from '../../../hotels/interfaces/hotel.interface';
 
 @Component({
   selector: 'app-hotel-page',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './hotel-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HotelPage { }
+export class HotelPage implements OnInit {
+  private hotelService = inject(HotelService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  hotel = signal<Hotel | null>(null);
+  isLoading = signal(false);
+  hotelId = signal('');
+  selectedImageIndex = signal(0);
+  selectedRoomImageIndex = signal<Record<string, number>>({});
+
+  ngOnInit() {
+    this.hotelId.set(this.route.snapshot.paramMap.get('idHotel') || '');
+    this.loadHotel();
+  }
+
+  private loadHotel() {
+    this.isLoading.set(true);
+    this.hotelService.getHotels().subscribe({
+      next: (res) => {
+        const found = res.hotels.find((h) => h.id === this.hotelId());
+        if (found) {
+          this.hotel.set(found);
+          // Initialize room image indices
+          const indices: Record<string, number> = {};
+          found.rooms.forEach((room) => (indices[room.id] = 0));
+          this.selectedRoomImageIndex.set(indices);
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading hotel:', err);
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  onReserve(roomId: string) {
+    this.router.navigate(['/reservation', this.hotelId(), roomId]);
+  }
+
+  goBack() {
+    this.router.navigate(['/search']);
+  }
+
+  selectImage(index: number) {
+    this.selectedImageIndex.set(index);
+  }
+
+  previousImage() {
+    const hotel = this.hotel();
+    if (!hotel) return;
+    const newIndex = this.selectedImageIndex() - 1;
+    this.selectedImageIndex.set(newIndex < 0 ? hotel.images.length - 1 : newIndex);
+  }
+
+  nextImage() {
+    const hotel = this.hotel();
+    if (!hotel) return;
+    const newIndex = this.selectedImageIndex() + 1;
+    this.selectedImageIndex.set(newIndex >= hotel.images.length ? 0 : newIndex);
+  }
+}

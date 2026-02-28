@@ -2,13 +2,8 @@
   <h1 class="text-2xl font-bold mb-5">Alojamientos</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <room-card />
-    <room-card />
-    <room-card />
-    <room-card />
-    <room-card />
-    <room-card />
-    <room-card />
-    <room-card />
+    @for (hotel of hotels(); track hotel.id) {
+      <app-room-card [hotel]="hotel" (selectHotel)="onSelectHotel($event)" />
+    }
   </div>
 </div>
