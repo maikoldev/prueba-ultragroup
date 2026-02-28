@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from '../../../hotels/services/hotel.service';
 import { Hotel, Room } from '../../../hotels/interfaces/hotel.interface';
+import { CopPipe } from '../../../shared/pipes/cop.pipe';
 
 @Component({
   selector: 'app-hotel-page',
-  imports: [CommonModule],
+  imports: [CommonModule, CopPipe],
   templateUrl: './hotel-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

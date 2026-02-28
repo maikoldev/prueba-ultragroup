@@ -77,7 +77,7 @@
         </div>
         <div>
           <p class="text-gray-600 text-sm">Precio total</p>
-          <p class="font-semibold text-lg text-green-600">{{ reservation()!.totalPrice | currency: 'COP': 'symbol': '1.0-0' }}</p>
+          <p class="font-semibold text-lg text-green-600">{{ reservation()!.totalPrice | cop }}</p>
         </div>
         <div>
           <p class="text-gray-600 text-sm">Estado</p>

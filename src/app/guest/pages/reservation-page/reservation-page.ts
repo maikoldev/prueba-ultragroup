@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from '../../../hotels/services/hotel.service';
 import { ReservationService } from '../../services/reservation.service';
 import { Hotel, Room } from '../../../hotels/interfaces/hotel.interface';
+import { CopPipe } from '../../../shared/pipes/cop.pipe';
 import {
   DocumentType,
   Gender,
@@ -14,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-reservation-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CopPipe],
   templateUrl: './reservation-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

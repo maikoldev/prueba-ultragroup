@@ -1,9 +1,11 @@
 import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Hotel } from '../../../hotels/interfaces/hotel.interface';
+import { CopPipe } from '../../../shared/pipes/cop.pipe';
 
 @Component({
   selector: 'app-room-card',
-  imports: [],
+  imports: [CommonModule, CopPipe],
   templateUrl: './room-card.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

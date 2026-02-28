@@ -15,7 +15,7 @@
     </h2>
     <p class="text-sm text-gray-600">{{ hotel().description }}</p>
     <div class="flex justify-between items-center mt-2">
-      <span class="font-bold">Desde ${{ minPrice().toLocaleString('es-CO') }} COP/noche</span>
+      <span class="font-bold">Desde {{ minPrice() | cop }}/noche</span>
       <div class="rating rating-sm">
         <span class="text-yellow-500">★ {{ hotel().rating }}</span>
       </div>

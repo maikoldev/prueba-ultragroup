@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CopPipe } from '../../../shared/pipes/cop.pipe';
 import { Reservation } from '../../interfaces/reservation.interface';
 
 @Component({
   selector: 'app-confirmation-page',
-  imports: [CommonModule],
+  imports: [CommonModule, CopPipe],
   templateUrl: './confirmation-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

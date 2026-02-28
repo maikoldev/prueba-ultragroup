@@ -57,15 +57,11 @@
               <div class="text-sm">
                 <div class="flex justify-between mb-2">
                   <span>Precio/noche:</span>
-                  <span class="font-bold">{{
-                    room()!.pricePerNight | currency: 'COP' : 'symbol' : '1.0-0'
-                  }}</span>
+                  <span class="font-bold">{{ room()!.pricePerNight | cop }}</span>
                 </div>
                 <div class="flex justify-between pt-2 border-t">
                   <span class="font-bold">Total:</span>
-                  <span class="font-bold text-primary text-lg">{{
-                    calculatePrice() | currency: 'COP' : 'symbol' : '1.0-0'
-                  }}</span>
+                  <span class="font-bold text-primary text-lg">{{ calculatePrice() | cop }}</span>
                 </div>
               </div>
 
