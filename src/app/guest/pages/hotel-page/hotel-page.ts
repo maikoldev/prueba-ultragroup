@@ -18,6 +18,7 @@ export class HotelPage implements OnInit {
   hotel = signal<Hotel | null>(null);
   isLoading = signal(false);
   hotelId = signal('');
+  notFound = signal(false);
   selectedImageIndex = signal(0);
   selectedRoomImageIndex = signal<Record<string, number>>({});
 
@@ -31,17 +32,22 @@ export class HotelPage implements OnInit {
     this.hotelService.getHotels().subscribe({
       next: (res) => {
         const found = res.hotels.find((h) => h.id === this.hotelId());
-        if (found) {
-          this.hotel.set(found);
-          // Initialize room image indices
-          const indices: Record<string, number> = {};
-          found.rooms.forEach((room) => (indices[room.id] = 0));
-          this.selectedRoomImageIndex.set(indices);
+        if (!found) {
+          this.notFound.set(true);
+          this.isLoading.set(false);
+          return;
         }
+
+        this.hotel.set(found);
+        // Initialize room image indices
+        const indices: Record<string, number> = {};
+        found.rooms.forEach((room) => (indices[room.id] = 0));
+        this.selectedRoomImageIndex.set(indices);
         this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Error loading hotel:', err);
+        this.notFound.set(true);
         this.isLoading.set(false);
       },
     });

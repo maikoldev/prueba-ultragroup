@@ -5,6 +5,20 @@
     <div class="flex justify-center items-center min-h-screen">
       <div class="loading loading-spinner loading-lg"></div>
     </div>
+  } @else if (notFound()) {
+    <div class="hero min-h-screen bg-base-200">
+      <div class="hero-content text-center">
+        <div class="max-w-md">
+          <h1 class="text-5xl font-bold mb-4">⚠️</h1>
+          <p class="text-lg mb-4">Hotel o habitación no encontrada</p>
+          <p class="text-sm opacity-70 mb-6">Los datos especificados no existen o no son válidos</p>
+          <div class="flex flex-col gap-2">
+            <button (click)="goBack()" class="btn btn-primary">← Volver al hotel</button>
+            <button (click)="router.navigate(['/search'])" class="btn btn-ghost">← Ir a búsqueda</button>
+          </div>
+        </div>
+      </div>
+    </div>
   } @else {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Booking Summary -->

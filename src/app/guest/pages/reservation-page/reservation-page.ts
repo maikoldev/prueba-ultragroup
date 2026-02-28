@@ -32,6 +32,7 @@ export class ReservationPage implements OnInit {
   roomId = signal('');
   isLoading = signal(false);
   isSubmitting = signal(false);
+  notFound = signal(false);
 
   documentTypes = Object.values(DocumentType);
   genders = Object.values(Gender);
@@ -48,17 +49,26 @@ export class ReservationPage implements OnInit {
     this.hotelService.getHotels().subscribe({
       next: (res) => {
         const found = res.hotels.find((h) => h.id === this.hotelId());
-        if (found) {
-          this.hotel.set(found);
-          const foundRoom = found.rooms.find((r) => r.id === this.roomId());
-          if (foundRoom) {
-            this.room.set(foundRoom);
-          }
+        if (!found) {
+          this.notFound.set(true);
+          this.isLoading.set(false);
+          return;
         }
+
+        this.hotel.set(found);
+        const foundRoom = found.rooms.find((r) => r.id === this.roomId());
+        if (!foundRoom) {
+          this.notFound.set(true);
+          this.isLoading.set(false);
+          return;
+        }
+
+        this.room.set(foundRoom);
         this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Error loading hotel:', err);
+        this.notFound.set(true);
         this.isLoading.set(false);
       },
     });
