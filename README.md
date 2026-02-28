@@ -213,3 +213,10 @@ npm run test
 3. **Reportes**: Exportar a PDF/Excel
 4. **Analytics**: Gráficos de ocupación y revenue
 5. **Mobile**: Aplicación nativa con Ionic
+
+## 🔐 Acceso Administrador
+
+Para acceder al panel de administración:
+
+- **URL**: `http://localhost:4200/admin/login`
+- **Contraseña**: `admin123`
