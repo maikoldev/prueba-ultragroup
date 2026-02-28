@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar';
-import { ToastNotificationComponent } from '../../../shared/components/toast-notification/toast-notification';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AdminSidebarComponent } from '@admin/components/admin-sidebar/admin-sidebar';
+import { ToastNotificationComponent } from '@shared/components/toast-notification/toast-notification';
+import { AuthService } from '@shared/services/auth.service';
 
 @Component({
   selector: 'app-admin-layout',

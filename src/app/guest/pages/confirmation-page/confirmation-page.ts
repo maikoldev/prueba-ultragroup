@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CopPipe } from '../../../shared/pipes/cop.pipe';
+import { CopPipe } from '@shared/pipes/cop.pipe';
 import { Reservation } from '../../interfaces/reservation.interface';
 
 @Component({

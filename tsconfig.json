@@ -16,7 +16,11 @@
     "module": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@env": ["envs"]
+      "@env": ["envs"],
+      "@shared/*": ["app/shared/*"],
+      "@admin/*": ["app/admin/*"],
+      "@guest/*": ["app/guest/*"],
+      "@hotels/*": ["app/hotels/*"]
     }
   },
   "angularCompilerOptions": {

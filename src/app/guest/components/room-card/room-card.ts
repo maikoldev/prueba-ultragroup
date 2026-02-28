@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Hotel } from '../../../hotels/interfaces/hotel.interface';
-import { CopPipe } from '../../../shared/pipes/cop.pipe';
+import { Hotel } from '@hotels/interfaces/hotel.interface';
+import { CopPipe } from '@shared/pipes/cop.pipe';
 
 @Component({
   selector: 'app-room-card',

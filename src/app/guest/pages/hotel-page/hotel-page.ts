@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService } from '../../../hotels/services/hotel.service';
-import { Hotel, Room } from '../../../hotels/interfaces/hotel.interface';
-import { CopPipe } from '../../../shared/pipes/cop.pipe';
+import { HotelService } from '@hotels/services/hotel.service';
+import { Hotel, Room } from '@hotels/interfaces/hotel.interface';
+import { CopPipe } from '@shared/pipes/cop.pipe';
 
 @Component({
   selector: 'app-hotel-page',

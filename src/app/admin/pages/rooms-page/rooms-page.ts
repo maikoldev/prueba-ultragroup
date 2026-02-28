@@ -1,9 +1,9 @@
 import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminService } from '../../services/admin.service';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { Room, Hotel } from '../../interfaces/admin.interface';
+import { AdminService } from '@admin/services/admin.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { Room, Hotel } from '@admin/interfaces/admin.interface';
 
 @Component({
   selector: 'app-rooms-page',

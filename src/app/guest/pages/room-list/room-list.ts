@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RoomCard } from '../../components/room-card/room-card';
-import { HotelService } from '../../../hotels/services/hotel.service';
-import { Hotel } from '../../../hotels/interfaces/hotel.interface';
+import { HotelService } from '@hotels/services/hotel.service';
+import { Hotel } from '@hotels/interfaces/hotel.interface';
 
 @Component({
   selector: 'app-room-list',

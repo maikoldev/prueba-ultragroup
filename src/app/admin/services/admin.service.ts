@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { Hotel, Room, Reservation } from '../interfaces/admin.interface';
-import { NotificationService } from '../../shared/services/notification.service';
+import { Hotel, Room, Reservation } from '@admin/interfaces/admin.interface';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Injectable({
   providedIn: 'root'

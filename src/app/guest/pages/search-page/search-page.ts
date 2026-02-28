@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HotelService } from '../../../hotels/services/hotel.service';
-import { Hotel } from '../../../hotels/interfaces/hotel.interface';
+import { HotelService } from '@hotels/services/hotel.service';
+import { Hotel } from '@hotels/interfaces/hotel.interface';
 import { RoomCard } from '../../components/room-card/room-card';
 import { SearchCriteria } from '../../interfaces/reservation.interface';
 
