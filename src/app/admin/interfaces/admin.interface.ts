@@ -25,9 +25,25 @@ export interface Reservation {
   hotelId: string;
   roomId: string;
   guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  guestDocument: string;
+  guestDocumentType: DocumentType;
   checkIn: Date;
   checkOut: Date;
   totalPrice: number;
-  status: 'confirmed' | 'pending' | 'cancelled';
+  status: ReservationStatus;
   createdAt: Date;
+}
+
+enum DocumentType {
+  CC = 'CC',
+  CE = 'CE',
+  PAS = 'PAS',
+}
+
+enum ReservationStatus {
+  CONFIRMED = 'confirmed',
+  PENDING = 'pending',
+  CANCELLED = 'cancelled'
 }

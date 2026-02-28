@@ -1,28 +1,69 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { Reservation, ReservationResponse } from '../interfaces/reservation.interface';
-import { env } from '../../../envs/env';
-
-const { baseUrl } = env;
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService {
-  private http = inject(HttpClient);
+  private readonly STORAGE_KEY = 'reservations';
 
-  createReservation(reservation: Reservation): Observable<ReservationResponse> {
-    return this.http.post<ReservationResponse>(`${baseUrl}/reservations`, reservation);
+  private getReservationsFromStorage(): Reservation[] {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 
-  getReservation(id: string): Observable<Reservation> {
-    return this.http.get<Reservation>(`${baseUrl}/reservations/${id}`);
+  private saveReservationsToStorage(reservations: Reservation[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(reservations));
+  }
+
+  createReservation(reservation: Reservation): Observable<ReservationResponse> {
+    const reservations = this.getReservationsFromStorage();
+
+    // Asegurar que la reservación tenga un ID único
+    const newReservation: Reservation = {
+      ...reservation,
+      id: reservation.id || `res-${Date.now()}`
+    };
+
+    reservations.push(newReservation);
+    this.saveReservationsToStorage(reservations);
+
+    const response: ReservationResponse = {
+      success: true,
+      message: 'Reserva creada exitosamente',
+      reservation: newReservation,
+    };
+
+    return of(response);
+  }
+
+  getReservation(id: string): Observable<Reservation | null> {
+    const reservations = this.getReservationsFromStorage();
+    const found = reservations.find(r => r.id === id) || null;
+    return of(found);
   }
 
   getReservationsByEmail(email: string): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${baseUrl}/reservations/email/${email}`);
+    const reservations = this.getReservationsFromStorage();
+    const filtered = reservations.filter(r => r.guestData.email === email);
+    return of(filtered);
   }
 
   cancelReservation(id: string): Observable<ReservationResponse> {
-    return this.http.delete<ReservationResponse>(`${baseUrl}/reservations/${id}`);
+    const reservations = this.getReservationsFromStorage();
+    const filtered = reservations.filter(r => r.id !== id);
+    const deleted = filtered.length < reservations.length;
+
+    if (deleted) {
+      this.saveReservationsToStorage(filtered);
+      return of({
+        success: true,
+        message: 'Reserva cancelada exitosamente'
+      });
+    }
+
+    return of({
+      success: false,
+      message: 'Reserva no encontrada'
+    });
   }
 }

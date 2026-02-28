@@ -7,7 +7,7 @@ import { env } from '@env';
 
 @Component({
   selector: 'app-login-page',
-  standalone: true,
+
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush

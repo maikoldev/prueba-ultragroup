@@ -14,7 +14,9 @@
           <p class="text-sm opacity-70 mb-6">Los datos especificados no existen o no son válidos</p>
           <div class="flex flex-col gap-2">
             <button (click)="goBack()" class="btn btn-primary">← Volver al hotel</button>
-            <button (click)="router.navigate(['/search'])" class="btn btn-ghost">← Ir a búsqueda</button>
+            <button (click)="router.navigate(['/search'])" class="btn btn-ghost">
+              ← Ir a búsqueda
+            </button>
           </div>
         </div>
       </div>
@@ -85,7 +87,9 @@
               <!-- Full Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Nombre completo <span class="text-error">*</span></span>
+                  <span class="label-text">
+                    Nombre completo <span class="text-error">*</span>
+                  </span>
                 </label>
                 <input
                   id="fullName"
@@ -96,15 +100,13 @@
                     'input input-bordered w-full ' +
                     (isFieldInvalid('fullName') ? 'input-error' : '')
                   "
-                  aria-required="true"
-                  aria-label="Ingresa tu nombre completo"
                   [attr.aria-invalid]="isFieldInvalid('fullName')"
                 />
                 @if (isFieldInvalid('fullName')) {
                   <label class="label">
-                    <span class="label-text-alt text-error" role="alert">{{
-                      getErrorMessage('fullName')
-                    }}</span>
+                    <span class="label-text-alt text-error" role="alert">
+                      {{ getErrorMessage('fullName') }}
+                    </span>
                   </label>
                 }
               </div>
@@ -112,9 +114,9 @@
               <!-- Date of Birth -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text"
-                    >Fecha de nacimiento <span class="text-error">*</span></span
-                  >
+                  <span class="label-text">
+                    Fecha de nacimiento <span class="text-error">*</span>
+                  </span>
                 </label>
                 <input
                   id="dateOfBirth"
@@ -124,15 +126,13 @@
                     'input input-bordered w-full ' +
                     (isFieldInvalid('dateOfBirth') ? 'input-error' : '')
                   "
-                  aria-required="true"
-                  aria-label="Selecciona tu fecha de nacimiento"
                   [attr.aria-invalid]="isFieldInvalid('dateOfBirth')"
                 />
                 @if (isFieldInvalid('dateOfBirth')) {
                   <label class="label">
-                    <span class="label-text-alt text-error" role="alert">{{
-                      getErrorMessage('dateOfBirth')
-                    }}</span>
+                    <span class="label-text-alt text-error" role="alert">
+                      {{ getErrorMessage('dateOfBirth') }}
+                    </span>
                   </label>
                 }
               </div>
@@ -149,8 +149,6 @@
                     'select select-bordered w-full ' +
                     (isFieldInvalid('gender') ? 'select-error' : '')
                   "
-                  aria-required="true"
-                  aria-label="Selecciona tu género"
                   [attr.aria-invalid]="isFieldInvalid('gender')"
                 >
                   <option disabled selected value="">Selecciona tu género</option>
@@ -160,9 +158,9 @@
                 </select>
                 @if (isFieldInvalid('gender')) {
                   <label class="label">
-                    <span class="label-text-alt text-error" role="alert">{{
-                      getErrorMessage('gender')
-                    }}</span>
+                    <span class="label-text-alt text-error" role="alert">
+                      {{ getErrorMessage('gender') }}
+                    </span>
                   </label>
                 }
               </div>
@@ -171,9 +169,9 @@
               <div class="grid grid-cols-2 gap-4">
                 <div class="form-control">
                   <label class="label">
-                    <span class="label-text"
-                      >Tipo de documento <span class="text-error">*</span></span
-                    >
+                    <span class="label-text">
+                      Tipo de documento <span class="text-error">*</span>
+                    </span>
                   </label>
                   <select
                     id="documentType"
@@ -182,8 +180,6 @@
                       'select select-bordered w-full ' +
                       (isFieldInvalid('documentType') ? 'select-error' : '')
                     "
-                    aria-required="true"
-                    aria-label="Selecciona tipo de documento"
                     [attr.aria-invalid]="isFieldInvalid('documentType')"
                   >
                     <option disabled selected value="">Selecciona tipo</option>
@@ -193,18 +189,18 @@
                   </select>
                   @if (isFieldInvalid('documentType')) {
                     <label class="label">
-                      <span class="label-text-alt text-error" role="alert">{{
-                        getErrorMessage('documentType')
-                      }}</span>
+                      <span class="label-text-alt text-error" role="alert">
+                        {{ getErrorMessage('documentType') }}
+                      </span>
                     </label>
                   }
                 </div>
 
                 <div class="form-control">
                   <label class="label">
-                    <span class="label-text"
-                      >Número de documento <span class="text-error">*</span></span
-                    >
+                    <span class="label-text">
+                      Número de documento <span class="text-error">*</span>
+                    </span>
                   </label>
                   <input
                     id="documentNumber"
@@ -215,15 +211,13 @@
                       'input input-bordered w-full ' +
                       (isFieldInvalid('documentNumber') ? 'input-error' : '')
                     "
-                    aria-required="true"
-                    aria-label="Ingresa tu número de documento"
                     [attr.aria-invalid]="isFieldInvalid('documentNumber')"
                   />
                   @if (isFieldInvalid('documentNumber')) {
                     <label class="label">
-                      <span class="label-text-alt text-error" role="alert">{{
-                        getErrorMessage('documentNumber')
-                      }}</span>
+                      <span class="label-text-alt text-error" role="alert">
+                        {{ getErrorMessage('documentNumber') }}
+                      </span>
                     </label>
                   }
                 </div>
@@ -242,8 +236,6 @@
                   [class]="
                     'input input-bordered w-full ' + (isFieldInvalid('email') ? 'input-error' : '')
                   "
-                  aria-required="true"
-                  aria-label="Ingresa tu email"
                   [attr.aria-invalid]="isFieldInvalid('email')"
                 />
                 @if (isFieldInvalid('email')) {
@@ -268,15 +260,13 @@
                   [class]="
                     'input input-bordered w-full ' + (isFieldInvalid('phone') ? 'input-error' : '')
                   "
-                  aria-required="true"
-                  aria-label="Ingresa tu teléfono"
                   [attr.aria-invalid]="isFieldInvalid('phone')"
                 />
                 @if (isFieldInvalid('phone')) {
                   <label class="label">
-                    <span class="label-text-alt text-error" role="alert">{{
-                      getErrorMessage('phone')
-                    }}</span>
+                    <span class="label-text-alt text-error" role="alert">
+                      {{ getErrorMessage('phone') }}
+                    </span>
                   </label>
                 }
               </div>

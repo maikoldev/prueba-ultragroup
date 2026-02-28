@@ -51,7 +51,6 @@ export class AdminService {
 
       console.log('🔄 Syncing rooms to localStorage...');
 
-      // Actualizar las habitaciones dentro de cada hotel
       hotels.forEach((hotel: any) => {
         const adminRooms = this.rooms().filter(r => r.hotelId === hotel.id);
 
@@ -60,13 +59,11 @@ export class AdminService {
           hotel.rooms = [];
         }
 
-        // Sincronizar completamente: solo mantener las habitaciones que existen en admin
         hotel.rooms = adminRooms.map(ar => {
-          // Buscar si esta habitación ya existe en el hotel
           const existingRoom = hotel.rooms.find((r: any) => r.id === ar.id);
 
           if (existingRoom) {
-            // Actualizar habitación existente preservando campos adicionales
+            // Actualizar habitación
             return {
               ...existingRoom,
               hotel_id: ar.hotelId,
@@ -316,19 +313,32 @@ export class AdminService {
       this.rooms.set([]);
     }
 
-    // Mock reservations
-    this.reservations.set([
-      {
-        id: 'res-1',
-        hotelId: 'hotel-1',
-        roomId: 'room-1',
-        guestName: 'Juan Pérez',
-        checkIn: new Date('2026-03-01'),
-        checkOut: new Date('2026-03-05'),
-        totalPrice: 1200,
-        status: 'confirmed',
-        createdAt: new Date()
+    const reservationsData = localStorage.getItem('reservations');
+    if (reservationsData) {
+      try {
+        const reservationsFromStorage = JSON.parse(reservationsData);
+        const mappedReservations: Reservation[] = reservationsFromStorage.map((res: any) => ({
+          id: res.id,
+          hotelId: res.hotelId,
+          roomId: res.roomId,
+          guestName: res.guestData?.fullName || 'N/A',
+          guestEmail: res.guestData?.email,
+          guestPhone: res.guestData?.phone,
+          guestDocument: res.guestData?.documentNumber,
+          guestDocumentType: res.guestData?.documentType,
+          checkIn: new Date(res.checkInDate || res.searchCriteria?.checkInDate),
+          checkOut: new Date(res.checkOutDate || res.searchCriteria?.checkOutDate),
+          totalPrice: res.totalPrice,
+          status: res.status || 'confirmed',
+          createdAt: new Date(res.createdAt)
+        }));
+        this.reservations.set(mappedReservations);
+      } catch (error) {
+        console.error('Error loading reservations:', error);
+        this.reservations.set([]);
       }
-    ]);
+    } else {
+      this.reservations.set([]);
+    }
   }
 }

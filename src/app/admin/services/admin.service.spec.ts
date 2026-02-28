@@ -64,7 +64,7 @@ describe('AdminService', () => {
       hotelId,
       roomType: 'Suite',
       baseCost: 150,
-      tax: 21,
+      tax: 19,
       location: 'Piso 5',
       isActive: true
     });
@@ -78,7 +78,7 @@ describe('AdminService', () => {
         hotelId: service.hotelsList()[0].id,
         roomType: 'Suite',
         baseCost: -100,
-        tax: 21,
+        tax: 19,
         location: 'Piso 1',
         isActive: true
       });

@@ -12,8 +12,8 @@ import { Hotel } from '@admin/interfaces/admin.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HotelsPageComponent {
-  adminService = inject(AdminService);
-  notificationService = inject(NotificationService);
+  readonly adminService = inject(AdminService);
+  private notificationService = inject(NotificationService);
 
   showModal = signal(false);
   editingHotel = signal<Hotel | null>(null);

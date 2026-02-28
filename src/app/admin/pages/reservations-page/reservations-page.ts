@@ -10,7 +10,7 @@ import { Reservation, Hotel, Room } from '@admin/interfaces/admin.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReservationsPageComponent {
-  adminService = inject(AdminService);
+  readonly adminService = inject(AdminService);
   selectedReservation = signal<Reservation | null>(null);
 
   viewDetail(reservation: Reservation): void {

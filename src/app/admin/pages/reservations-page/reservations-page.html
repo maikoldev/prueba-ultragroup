@@ -78,8 +78,19 @@
           </div>
 
           <div class="bg-base-200 p-3 rounded">
-            <p class="text-sm text-gray-500">Huésped</p>
-            <p class="font-semibold">{{ selectedReservation()!.guestName }}</p>
+            <p class="text-sm text-gray-500 mb-2">👤 Información del Huésped</p>
+            <div class="space-y-1">
+              <p class="font-semibold">{{ selectedReservation()!.guestName }}</p>
+              @if (selectedReservation()!.guestDocument) {
+                <p class="text-sm">{{ selectedReservation()!.guestDocumentType }}: {{ selectedReservation()!.guestDocument }}</p>
+              }
+              @if (selectedReservation()!.guestEmail) {
+                <p class="text-sm">📧 {{ selectedReservation()!.guestEmail }}</p>
+              }
+              @if (selectedReservation()!.guestPhone) {
+                <p class="text-sm">📱 {{ selectedReservation()!.guestPhone }}</p>
+              }
+            </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">

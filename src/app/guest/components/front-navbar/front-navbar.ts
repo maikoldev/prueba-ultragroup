@@ -8,5 +8,5 @@ import { AuthService } from '@shared/services/auth.service';
   templateUrl: './front-navbar.html',
 })
 export class FrontNavbar {
-  authService = inject(AuthService);
+  readonly authService = inject(AuthService);
 }

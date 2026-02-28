@@ -6,6 +6,7 @@ import { HotelService } from '@hotels/services/hotel.service';
 import { ReservationService } from '../../services/reservation.service';
 import { Hotel, Room } from '@hotels/interfaces/hotel.interface';
 import { CopPipe } from '@shared/pipes/cop.pipe';
+import { NotificationService } from '@shared/services/notification.service';
 import {
   DocumentType,
   Gender,
@@ -23,6 +24,7 @@ export class ReservationPage implements OnInit {
   private formBuilder = inject(FormBuilder);
   private hotelService = inject(HotelService);
   private reservationService = inject(ReservationService);
+  private notificationService = inject(NotificationService);
   private route = inject(ActivatedRoute);
   router = inject(Router);
 
@@ -58,7 +60,7 @@ export class ReservationPage implements OnInit {
 
         this.hotel.set(found);
         const foundRoom = found.rooms.find((r) => r.id === this.roomId());
-        if (!foundRoom) {
+        if (!foundRoom || !foundRoom.isActive) {
           this.notFound.set(true);
           this.isLoading.set(false);
           return;
@@ -131,7 +133,7 @@ export class ReservationPage implements OnInit {
       error: (err) => {
         console.error('Error creating reservation:', err);
         this.isSubmitting.set(false);
-        alert('Error al crear la reserva. Intenta de nuevo.');
+        this.notificationService.error('Error al crear la reserva. Intenta de nuevo.');
       },
     });
   }

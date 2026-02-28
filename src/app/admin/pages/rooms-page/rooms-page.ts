@@ -12,8 +12,8 @@ import { Room, Hotel } from '@admin/interfaces/admin.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomsPageComponent {
-  adminService = inject(AdminService);
-  notificationService = inject(NotificationService);
+  readonly adminService = inject(AdminService);
+  private notificationService = inject(NotificationService);
 
   showModal = signal(false);
   editingRoom = signal<Room | null>(null);
@@ -21,7 +21,7 @@ export class RoomsPageComponent {
     hotelId: '',
     roomType: '',
     baseCost: 0,
-    tax: 21,
+    tax: 19,
     location: ''
   };
 
@@ -106,7 +106,7 @@ export class RoomsPageComponent {
       hotelId: '',
       roomType: '',
       baseCost: 0,
-      tax: 21,
+      tax: 19,
       location: ''
     };
   }
