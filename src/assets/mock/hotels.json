@@ -1,5 +1,5 @@
 {
-  "count": 12,
+  "count": 6,
   "pages": 1,
   "hotels": [
     {
@@ -8,45 +8,53 @@
       "location": "Bogotá, Colombia",
       "rating": 4.5,
       "description": "Un hotel de lujo con vistas al mar, piscina infinita y servicio de primera clase.",
-      "amenities": ["Piscina", "Gimnasio", "Wi-Fi gratuito", "Desayuno incluido", "Spa", "Restaurante"],
-      "images": ["https://picsum.photos/seed/paradise/400/300"],
-      "category": "lujo",
+      "images": ["https://res.cloudinary.com/lastminute/image/upload/a7d2ep3qablcgclrqcq0.jpg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-paradise-1",
+          "hotel_id": "hotel-paradise",
           "type": "Simple",
           "name": "Habitación Simple Deluxe",
           "description": "Habitación con cama individual, vista a la ciudad y baño privado con ducha.",
           "pricePerNight": 180000,
+          "tax": 19,
+          "location": "Piso 2, Torre A",
           "capacity": 1,
           "available": 5,
           "amenities": ["TV", "Minibar", "Caja fuerte", "Aire acondicionado"],
-          "images": ["https://picsum.photos/seed/paradise-simple/300/200"],
-          "size": 20
+          "size": 20,
+          "isActive": true
         },
         {
           "id": "room-paradise-2",
+          "hotel_id": "hotel-paradise",
           "type": "Doble",
           "name": "Habitación Doble Executive",
           "description": "Habitación con cama queen size, balcón con vista panorámica y baño de lujo.",
           "pricePerNight": 280000,
+          "tax": 19,
+          "location": "Piso 5, Torre A",
           "capacity": 2,
           "available": 8,
           "amenities": ["TV", "Minibar", "Caja fuerte", "Aire acondicionado", "Balcón"],
-          "images": ["https://picsum.photos/seed/paradise-double/300/200"],
-          "size": 30
+          "size": 30,
+          "isActive": true
         },
         {
           "id": "room-paradise-3",
+          "hotel_id": "hotel-paradise",
           "type": "Suite",
           "name": "Suite Presidencial",
           "description": "Suite de lujo con sala, comedor, jacuzzi y terraza privada con vista al mar.",
           "pricePerNight": 550000,
+          "tax": 19,
+          "location": "Piso 10, Pentháuse",
           "capacity": 4,
           "available": 2,
           "amenities": ["TV", "Minibar", "Caja fuerte", "Aire acondicionado", "Jacuzzi", "Sala de estar"],
-          "images": ["https://picsum.photos/seed/paradise-suite/300/200"],
-          "size": 65
+          "size": 65,
+          "isActive": true
         }
       ]
     },
@@ -56,33 +64,38 @@
       "location": "Cartagena, Colombia",
       "rating": 4.0,
       "description": "Un hotel boutique con encanto colonial, ubicado en el corazón de la ciudad amurallada.",
-      "amenities": ["Wi-Fi gratuito", "Desayuno incluido", "Servicio de habitaciones", "Terraza"],
-      "images": ["https://picsum.photos/seed/sunset/400/300"],
-      "category": "boutique",
+      "images": ["https://res.cloudinary.com/lastminute/image/upload/g47zesqxixw1irkrjz3k.jpg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-sunset-1",
+          "hotel_id": "hotel-sunset",
           "type": "Simple",
           "name": "Habitación Colonial Simple",
           "description": "Habitación con decoración colonial, cama sencilla y baño privado.",
           "pricePerNight": 150000,
+          "tax": 19,
+          "location": "Piso 1, Edificio Principal",
           "capacity": 1,
           "available": 4,
           "amenities": ["TV", "Ventilador", "Wi-Fi"],
-          "images": ["https://picsum.photos/seed/sunset-simple/300/200"],
-          "size": 18
+          "size": 18,
+          "isActive": true
         },
         {
           "id": "room-sunset-2",
+          "hotel_id": "hotel-sunset",
           "type": "Doble",
           "name": "Habitación Colonial Doble",
           "description": "Habitación amplia con cama matrimonial, balcón y decoración típica colonial.",
           "pricePerNight": 220000,
+          "tax": 19,
+          "location": "Piso 2, Ala Colonial",
           "capacity": 2,
           "available": 6,
           "amenities": ["TV", "Aire acondicionado", "Wi-Fi", "Balcón"],
-          "images": ["https://picsum.photos/seed/sunset-double/300/200"],
-          "size": 25
+          "size": 25,
+          "isActive": true
         }
       ]
     },
@@ -92,33 +105,38 @@
       "location": "Medellín, Colombia",
       "rating": 4.2,
       "description": "Un hotel moderno con vistas panorámicas a las montañas, ideal para relajarse y disfrutar de la naturaleza.",
-      "amenities": ["Piscina", "Gimnasio", "Wi-Fi gratuito", "Desayuno incluido", "Bar"],
-      "images": ["https://picsum.photos/seed/mountain/400/300"],
-      "category": "lujo",
+      "images": ["https://res.cloudinary.com/lastminute/image/upload/Featured_Image_0_18_i1oyiq.jpg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-mountain-1",
+          "hotel_id": "hotel-mountain-view",
           "type": "Doble",
           "name": "Habitación Vista Montaña",
           "description": "Habitación con ventanal amplio y vistas espectaculares a las montañas.",
           "pricePerNight": 250000,
+          "tax": 19,
+          "location": "Piso 7, Norte",
           "capacity": 2,
           "available": 10,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Wi-Fi"],
-          "images": ["https://picsum.photos/seed/mountain-double/300/200"],
-          "size": 28
+          "size": 28,
+          "isActive": true
         },
         {
           "id": "room-mountain-2",
+          "hotel_id": "hotel-mountain-view",
           "type": "Familiar",
           "name": "Habitación Familiar Premium",
           "description": "Habitación amplia con dos camas dobles, perfecta para familias",
           "pricePerNight": 380000,
+          "tax": 19,
+          "location": "Piso 6, Sur",
           "capacity": 4,
           "available": 5,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Wi-Fi", "Sofá cama"],
-          "images": ["https://picsum.photos/seed/mountain-familiar/300/200"],
-          "size": 40
+          "size": 40,
+          "isActive": true
         }
       ]
     },
@@ -128,33 +146,38 @@
       "location": "Cali, Colombia",
       "rating": 3.8,
       "description": "Un hotel económico ubicado en el centro de la ciudad, cerca de tiendas y restaurantes.",
-      "amenities": ["Wi-Fi gratuito", "Desayuno incluido"],
-      "images": ["https://picsum.photos/seed/citycenter/400/300"],
-      "category": "económico",
+      "images": ["https://res.cloudinary.com/lastminute/image/upload/s4q0ducoobpjyglqfayc.jpg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-city-1",
+          "hotel_id": "hotel-city-center",
           "type": "Simple",
           "name": "Habitación Económica",
           "description": "Habitación básica con cama sencilla, ideal para viajeros de negocios.",
           "pricePerNight": 90000,
+          "tax": 19,
+          "location": "Piso 3, Bloque B",
           "capacity": 1,
           "available": 12,
           "amenities": ["TV", "Wi-Fi"],
-          "images": ["https://picsum.photos/seed/city-simple/300/200"],
-          "size": 15
+          "size": 15,
+          "isActive": true
         },
         {
           "id": "room-city-2",
+          "hotel_id": "hotel-city-center",
           "type": "Doble",
           "name": "Habitación Doble Estándar",
           "description": "Habitación con cama matrimonial y baño privado.",
           "pricePerNight": 130000,
+          "tax": 19,
+          "location": "Piso 4, Bloque A",
           "capacity": 2,
           "available": 8,
           "amenities": ["TV", "Wi-Fi", "Ventilador"],
-          "images": ["https://picsum.photos/seed/city-double/300/200"],
-          "size": 20
+          "size": 20,
+          "isActive": true
         }
       ]
     },
@@ -164,33 +187,38 @@
       "location": "Santa Marta, Colombia",
       "rating": 4.7,
       "description": "Un hotel frente al mar con acceso directo a la playa, ideal para unas vacaciones relajantes.",
-      "amenities": ["Piscina", "Gimnasio", "Wi-Fi gratuito", "Desayuno incluido", "Beach club", "Spa"],
-      "images": ["https://picsum.photos/seed/beach/400/300"],
-      "category": "lujo",
+      "images": ["https://pix8.agoda.net/hotelImages/369530/0/e35abb0cb179f8608179f7acf4e98d0b.jpeg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-beach-1",
+          "hotel_id": "hotel-beachside",
           "type": "Doble",
           "name": "Habitación Vista Jardín",
           "description": "Habitación con vista a los jardines tropicales del hotel.",
           "pricePerNight": 280000,
+          "tax": 19,
+          "location": "Piso 1, Ala Jardín",
           "capacity": 2,
           "available": 15,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Balcón"],
-          "images": ["https://picsum.photos/seed/beach-garden/300/200"],
-          "size": 30
+          "size": 30,
+          "isActive": true
         },
         {
           "id": "room-beach-2",
+          "hotel_id": "hotel-beachside",
           "type": "Suite",
           "name": "Suite Vista al Mar",
           "description": "Suite de lujo con vista directa al mar Caribe y acceso privado a la playa.",
           "pricePerNight": 480000,
+          "tax": 19,
+          "location": "Piso 3, Frente al Mar",
           "capacity": 3,
           "available": 6,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Balcón", "Sala de estar", "Jacuzzi"],
-          "images": ["https://picsum.photos/seed/beach-suite/300/200"],
-          "size": 55
+          "size": 55,
+          "isActive": true
         }
       ]
     },
@@ -200,33 +228,38 @@
       "location": "Barranquilla, Colombia",
       "rating": 4.3,
       "description": "Un hotel moderno ubicado a orillas del río, con vistas impresionantes y un ambiente relajante.",
-      "amenities": ["Piscina", "Gimnasio", "Wi-Fi gratuito", "Desayuno incluido", "Centro de negocios"],
-      "images": ["https://picsum.photos/seed/riverside/400/300"],
-      "category": "negocios",
+      "images": ["https://res.cloudinary.com/lastminute/image/upload/aqivqrlv2jsni0svhczb.jpg"],
+      "isActive": true,
       "rooms": [
         {
           "id": "room-river-1",
+          "hotel_id": "hotel-riverside",
           "type": "Doble",
           "name": "Habitación Business",
           "description": "Habitación diseñada para viajeros de negocios con escritorio amplio.",
           "pricePerNight": 200000,
+          "tax": 19,
+          "location": "Piso 8, Torre Ejecutiva",
           "capacity": 2,
           "available": 20,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Escritorio", "Wi-Fi de alta velocidad"],
-          "images": ["https://picsum.photos/seed/river-business/300/200"],
-          "size": 25
+          "size": 25,
+          "isActive": true
         },
         {
           "id": "room-river-2",
+          "hotel_id": "hotel-riverside",
           "type": "Suite",
           "name": "Suite Ejecutiva",
           "description": "Suite con sala de reuniones privada y vista panorámica al río.",
           "pricePerNight": 350000,
+          "tax": 19,
+          "location": "Piso 12, Vista Río",
           "capacity": 3,
           "available": 4,
           "amenities": ["TV", "Minibar", "Aire acondicionado", "Sala de reuniones", "Balcón"],
-          "images": ["https://picsum.photos/seed/river-suite/300/200"],
-          "size": 45
+          "size": 45,
+          "isActive": true
         }
       ]
     }
